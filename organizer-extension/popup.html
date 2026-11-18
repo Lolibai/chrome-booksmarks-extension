@@ -3,16 +3,130 @@
 <head>
 <meta charset="utf-8">
 <style>
-  body { font: 13px system-ui, sans-serif; width: 380px; margin: 12px; }
-  button { font-size: 14px; padding: 6px 14px; margin-right: 6px; }
-  pre { background: #f4f4f4; padding: 8px; max-height: 320px; overflow: auto; white-space: pre-wrap; }
+  :root {
+    --bg: #f6f8fc;
+    --card: #ffffff;
+    --text: #1d2433;
+    --muted: #5d6779;
+    --border: #e3e8f2;
+    --accent: #3a66e6;
+    --accent-hover: #2e57d6;
+    --accent-soft: #e8efff;
+    --log-bg: #f1f4fa;
+    --shadow: 0 1px 2px rgba(20, 30, 60, .06), 0 4px 14px rgba(20, 30, 60, .06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14171f;
+      --card: #1c212b;
+      --text: #e6e9f0;
+      --muted: #9aa3b5;
+      --border: #2a3140;
+      --accent: #5b8cff;
+      --accent-hover: #7aa2ff;
+      --accent-soft: #24304d;
+      --log-bg: #12151c;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 14px rgba(0, 0, 0, .25);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    width: 380px;
+    margin: 0;
+    padding: 16px;
+    background: var(--bg);
+    color: var(--text);
+    font: 13px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+
+  header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  header img { width: 36px; height: 36px; }
+  header h1 { margin: 0; font-size: 16px; font-weight: 650; letter-spacing: -.01em; }
+  header p { margin: 0; color: var(--muted); font-size: 12px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  .card li { display: flex; gap: 8px; align-items: flex-start; color: var(--muted); }
+  .card li::before {
+    content: "";
+    flex: none;
+    width: 6px; height: 6px;
+    margin-top: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .actions { display: flex; gap: 8px; margin: 14px 0 12px; }
+  button {
+    flex: 1;
+    height: 36px;
+    border-radius: 9px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, transform .05s;
+  }
+  button:active:not(:disabled) { transform: translateY(1px); }
+  button:disabled { opacity: .5; cursor: default; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #dry {
+    background: var(--accent-soft);
+    border: 1px solid transparent;
+    color: var(--accent);
+  }
+  #dry:hover:not(:disabled) { border-color: var(--accent); }
+  #apply {
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: #fff;
+  }
+  #apply:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+  #log {
+    margin: 0;
+    padding: 10px 12px;
+    max-height: 300px;
+    overflow: auto;
+    white-space: pre-wrap;
+    background: var(--log-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font: 12px/1.55 ui-monospace, "Cascadia Code", Consolas, monospace;
+  }
+  #log:empty::before { content: "Run a dry run to preview the changes."; color: var(--muted); font-family: system-ui, sans-serif; }
 </style>
 </head>
 <body>
-  <h3>Organize bookmarks</h3>
-  <p>Dry run shows what will change. Apply moves bookmarks into categorized folders on the Bookmarks bar, removes exact-URL duplicates, and deletes folders that end up empty.</p>
-  <button id="dry">Dry run</button><button id="apply">Apply</button>
+  <header>
+    <img src="icons/icon128.png" alt="">
+    <div>
+      <h1>Bookmark Organizer</h1>
+      <p>Sort bookmarks into categorized folders</p>
+    </div>
+  </header>
+
+  <section class="card">
+    <ul>
+      <li>Moves bookmarks into folders on the Bookmarks bar</li>
+      <li>Removes duplicate URLs</li>
+      <li>Deletes folders left empty</li>
+    </ul>
+  </section>
+
+  <div class="actions">
+    <button id="dry">Dry run</button>
+    <button id="apply">Apply</button>
+  </div>
+
   <pre id="log"></pre>
+
   <script src="plan.js"></script>
   <script src="popup.js"></script>
 </body>
