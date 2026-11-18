@@ -99,7 +99,16 @@ def main():
         plan[it["url"]] = classify(it)
 
     out = os.path.join(HERE, "organizer-extension", "plan.js")
+    # Top-level folder order on the bar = order in which targets appear in the rules.
+    used = {t.split("/")[0] for t in plan.values()} - {"Quick Links"}
+    order = []
+    candidates = [t for t, _ in rules.RULES] + [t for _, _, t in getattr(rules, "OVERRIDES", [])]
+    for t in candidates + sorted(used):
+        top = t.split("/")[0]
+        if top in used and top not in order:
+            order.append(top)
     with open(out, "w", encoding="utf-8") as f:
+        f.write("const ORDER = " + json.dumps(order, ensure_ascii=False) + ";\n")
         f.write("const PLAN = " + json.dumps(plan, ensure_ascii=False, indent=0) + ";\n")
 
     print(f"profile: {profile}   rules: {rules_mod}.py   bookmarks: {len(items)}   unique: {len(plan)}   duplicates: {dups}")
