@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "Bookmark Organizer (local)",
+  "version": "1.0",
+  "description": "One-off: reorganizes bookmarks into categorized folders.",
+  "permissions": ["bookmarks"],
+  "action": { "default_popup": "popup.html", "default_title": "Organize bookmarks" }
+}

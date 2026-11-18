@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font: 13px system-ui, sans-serif; width: 380px; margin: 12px; }
+  button { font-size: 14px; padding: 6px 14px; margin-right: 6px; }
+  pre { background: #f4f4f4; padding: 8px; max-height: 320px; overflow: auto; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+  <h3>Organize bookmarks</h3>
+  <p>Dry run shows what will change. Apply moves bookmarks into categorized folders on the Bookmarks bar, removes exact-URL duplicates, and deletes folders that end up empty.</p>
+  <button id="dry">Dry run</button><button id="apply">Apply</button>
+  <pre id="log"></pre>
+  <script src="plan.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

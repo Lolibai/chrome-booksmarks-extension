@@ -1,0 +1,10 @@
+# Personal data — never commit
+backup/
+rules.py
+organizer-extension/plan.js
+
+# Local tooling
+.claude/
+.mcp.json
+__pycache__/
+*.pyc
